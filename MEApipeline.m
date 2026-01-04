@@ -629,8 +629,10 @@ if Params.startAnalysisStep < 3
         end
     end
     
-    % Save stimulation analysis data to CSV files
-            saveEphysStatsStim(ExpName, Params);
+    if Params.stimulationMode == 1
+        % Save stimulation analysis data to CSV files
+        saveEphysStatsStim(ExpName, Params);
+    end 
 
     if Params.timeProcesses
         step2Duration = toc(step2Start);
