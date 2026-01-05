@@ -28,12 +28,9 @@ for nodeIdx = 1:numNodes
         rectangle('Position', circlePos,'Curvature',[1 1],'FaceColor',nodeColor,'EdgeColor','red','LineWidth', 1.5)
         text(xc - (0.1*nodeScaleF), yc, num2str(stimInfo{nodeIdx}.pattern), 'Color', 'white', 'FontSize', 12);
     end
-    rectangle('Position', circlePos,'Curvature',[1 1],'FaceColor',nodeColor,'EdgeColor','black','LineWidth', 1) 
 end
 
 axis off
-
-
 
 end
 
