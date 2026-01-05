@@ -51,8 +51,8 @@ while numPlots < (numNoStimTracesToPlot)
     figName = sprintf('3_NoStimsElectrode_%.f', channelNames(nonStimChannels(randomIndex)));
     figHandle = plotIdvStimDataAndTrace(filteredData, nonStimChannels(randomIndex), stimInfo, Params);
     pipelineSaveFig(fullfile(expSubFolder, figName), Params.figExt, Params.fullSVG, figHandle);
-    nonStimChannels(randomIndex) = []; % Remove selected channel to avoid repeats
-    numPlots = numPlots + 1; % Increment the plot counter
+    nonStimChannels(randomIndex) = []; % remove selected channel to avoid repeats
+    numPlots = numPlots + 1;
     close(figHandle)
 
 end 
@@ -65,7 +65,7 @@ while numPlots < (numStimTracesToPlot)
         figName = sprintf('3_StimsElectrode_%.f', channelNames(stimChannels(stimIndex)));
         figHandle = plotIdvStimDataAndTrace(filteredData, stimChannels(stimIndex), stimInfo, Params);
         pipelineSaveFig(fullfile(expSubFolder, figName), Params.figExt, Params.fullSVG, figHandle);
-        numPlots = numPlots + 1; % increment the plot counter
+        numPlots = numPlots + 1;
         close(figHandle)
 
     end
