@@ -2,8 +2,10 @@ function  Params = getParamsFromApp(app)
 % Sets the parameters from GUI input
 %   INPUT 
 %   app : app object 
+%   MEA-NAP GUI application object
 %   OUTPUT
 %   Params : struct
+%   Parameters for running MEA-NAP
 
 Params.HomeDir = app.MEANAPFolderEditField.Value;
 Params.outputDataFolder = app.OutputDataFolderEditField.Value;
@@ -263,7 +265,7 @@ Params.use_min_max_per_genotype_bounds = 0;
 Params.rasterPlotUpperPercentile = app.RasterMapUpperPercentileEditField.Value;
 
 %% Burst detection settings 
-Params.networkBurstDetectionMethod = app.BurstDetectionMethodDropDown.Value; % supported methods: 'Bakkum', 'Manuel', 'LogISI', 'nno'
+Params.networkBurstDetectionMethod = app.BurstDetectionMethodDropDown.Value; % supported methods: 'Bakkum', 'Threshold', 'Manuel', 'LogISI', 'nno'
 Params.minSpikeNetworkBurst = app.MinspikepernetworkburstEditField.Value;
 Params.minChannelNetworkBurst = app.MinchannelpernetworkburstEditField.Value;
 Params.bakkumNetworkBurstISInThreshold = app.BakkumNetworkBurstThresholdEditField.Value; % either 'automatic' or a number in seconds

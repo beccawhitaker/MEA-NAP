@@ -537,6 +537,9 @@ if Params.startAnalysisStep < 3
                     oneFigureHandle, []);
             
             end
+
+            % Plot network burst detection 
+            plotNetworkBursts(spikeTimes, Ephys, Info, Params, idvNeuronalAnalysisFNFolder, oneFigureHandle)
             
             % half violin plots
             firingRateElectrodeDistribution(char(Info.FN), Ephys, Params, ... 
