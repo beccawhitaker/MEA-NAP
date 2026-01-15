@@ -5,6 +5,7 @@ function plotStimDetectionChecks(filteredData, stimInfo, expSubFolder, Params)
 %% 1 | Overall stimulation trace 
 
 figName = '1_StimsDetected';
+figHandle = figure;
 figHandle = plotStimTimes(filteredData, stimInfo, Params, figHandle);
 pipelineSaveFig(fullfile(expSubFolder, figName), Params.figExt, Params.fullSVG, figHandle);
 close(figHandle)
