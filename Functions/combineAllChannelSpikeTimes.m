@@ -4,9 +4,10 @@ function allSpikeTimes = combineAllChannelSpikeTimes(spikeTimes, method)
 
 allSpikeTimes = [];
 
-for channelIdx = 1:length(length(spikeTimes))
+for channelIdx = 1:length(spikeTimes)
     allSpikeTimes = [allSpikeTimes; spikeTimes{channelIdx}.(method)];
 end
 
+allSpikeTimes = sort(allSpikeTimes);
 
 end

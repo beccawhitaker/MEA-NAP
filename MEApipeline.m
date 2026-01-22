@@ -430,8 +430,9 @@ if Params.startAnalysisStep < 3
                 end
             end
             channelLayout =  Params.channelLayoutPerRecording{ExN};
+            electrodesToGround = Params.electrodesToGroundPerRecording{ExN};
             [spikeMatrix,spikeTimes,Params,Info] = formatSpikeTimes(... 
-                char(Info.FN), Params, Info, spikeDetectedDataFolder, channelLayout);
+                char(Info.FN), Params, Info, spikeDetectedDataFolder, channelLayout, electrodesToGround);
 
             % load(experimentMatFpath,'Info','Params','spikeTimes','spikeMatrix');
 
@@ -699,7 +700,13 @@ if Params.priorAnalysis==0 || Params.priorAnalysis==1 && Params.startAnalysisSte
                     fprintf(sprintf('Generating adjacency matrix for: %s \n', char(Info.FN)))
                 end 
             end
+            
+            % ground electrodes
+            electrodesToGround = Params.electrodesToGroundPerRecording{ExN};
+            spikeTimes = groundSpikeTimes(spikeTimes, Info.channels, ...
+                electrodesToGround, Params.electrodesToGroundPerRecordingUseName);
 
+            % calculate adjacecny matrix from spike times
             adjMs = generateAdjMs(spikeTimes, ExN, Params, Info, oneFigureHandle);
 
 
@@ -806,6 +813,7 @@ if Params.priorAnalysis==0 || Params.priorAnalysis==1 && Params.startAnalysisSte
             end 
 
             channelLayout = Params.channelLayoutPerRecording{ExN};
+            electrodesToGround = Params.electrodesToGroundPerRecording{ExN};
             
             if Params.suite2pMode
                 if strcmp(Params.twopActivity, 'denoised F')
@@ -819,11 +827,11 @@ if Params.priorAnalysis==0 || Params.priorAnalysis==1 && Params.startAnalysisSte
                 elseif strcmp(Params.twopActivity, 'peaks')
                     Params.fs = expMatData.fs;
                     [activityMatrix, spikeTimes, Params, Info] = formatSpikeTimes(char(Info.FN), ...
-                    Params, Info, spikeDetectedDataFolder, expMatData);
+                    Params, Info, spikeDetectedDataFolder, channelLayout, electrodesToGround);
                 end
             else 
                 [activityMatrix, spikeTimes, Params, Info] = formatSpikeTimes(char(Info.FN), ...
-                    Params, Info, spikeDetectedDataFolder, expMatData);
+                    Params, Info, spikeDetectedDataFolder, channelLayout, electrodesToGround);
             end
 
             Params.networkActivityFolder = idvNetworkAnalysisFNFolder;
