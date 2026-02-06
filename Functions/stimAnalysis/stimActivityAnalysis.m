@@ -144,26 +144,31 @@ function stimActivityAnalysis(spikeData, Params, Info, figFolder, oneFigureHandl
     %% Spike Latency / Time-to-first-spike 
     
     numPatterns = length(spikeData.stimPatterns);
-    channelMeanSpikeLatency = zeros(numChannels, numPatterns) + nan;
+    channelMedianSpikeLatency_ms = zeros(numChannels, numPatterns) + nan;
+    
+    % Define search window end (same as STEP 7: psth_window_s(2))
+    % Note: psth_window_s is defined later, so we use Params.stimAnalysisWindow(2) here
+    latencySearchWindowEnd_s = Params.stimAnalysisWindow(2);
    
     for patternIdx = 1:numPatterns
         stimTimesToAlign = spikeData.stimPatterns{patternIdx};
         % for each electrode
         for channelIdx= 1:numChannels
             channelSpikeTimes = spikeData.spikeTimes{channelIdx}.(Params.SpikesMethod);
-            spikeLatencies = getSpikeLatencyRelStim(stimTimesToAlign, channelSpikeTimes);
-            channelMeanSpikeLatency(channelIdx, patternIdx) = nanmean(spikeLatencies);
+            % Pass the search window end to limit latency search
+            spikeLatencies_ms = getSpikeLatencyRelStim(stimTimesToAlign, channelSpikeTimes, latencySearchWindowEnd_s);
+            channelMedianSpikeLatency_ms(channelIdx, patternIdx) = nanmedian(spikeLatencies_ms);
         end
     end 
     % TODO: Make null distribution of spike latency
 
-    % Make plots of spike latency
-    vrange = [min(channelMeanSpikeLatency(:)) max(channelMeanSpikeLatency(:))];
+    % Make plots of spike latency (now in milliseconds)
+    vrange = [min(channelMedianSpikeLatency_ms(:)) max(channelMedianSpikeLatency_ms(:))];
     cmap = flip(viridis);
     for patternIdx = 1:length(spikeData.stimPatterns)
         oneFigureHandle = figure();
-        nodeMetric = channelMeanSpikeLatency(:, patternIdx);
-        cmapLabel = 'Mean spike latency (s)';
+        nodeMetric = channelMedianSpikeLatency_ms(:, patternIdx);
+        cmapLabel = 'Median spike latency (ms)';
         oneFigureHandle = plotStimHeatmapWmetric(nodeMetric, vrange, cmap, cmapLabel, ...
             spikeData.stimInfo, patternIdx, oneFigureHandle);
         title(sprintf('Pattern %.f', patternIdx));
@@ -730,6 +735,7 @@ function stimActivityAnalysis(spikeData, Params, Info, figFolder, oneFigureHandl
             electrodeLevelResponse_pattern_x(valid_channel_count).d_prime = d_prime;
             electrodeLevelResponse_pattern_x(valid_channel_count).zscore = zscore_response;
             electrodeLevelResponse_pattern_x(valid_channel_count).psth_window_s = psth_window_s;
+            electrodeLevelResponse_pattern_x(valid_channel_count).median_latency_ms = channelMedianSpikeLatency_ms(channelIdx, patternIdx);
         end % End of channel loop
 
         % =====================================================================
