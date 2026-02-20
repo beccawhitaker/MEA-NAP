@@ -500,7 +500,7 @@ if Params.startAnalysisStep < 3
             % electrode heat maps
             coords = Params.coords{ExN};
             electrodeHeatMaps(char(Info.FN), spikeMatrix, Info.channels, ... 
-                maxValStruct.FR, Params, coords, idvNeuronalAnalysisFNFolder, oneFigureHandle)
+                maxValStruct.FR, Params, coords, idvNeuronalAnalysisFNFolder, oneFigureHandle, Params.electrodesToGroundPerRecording(ExN))
             
             % Plot bursts metrics
             metricVarsToPlot = {'channelBurstRate', ...
